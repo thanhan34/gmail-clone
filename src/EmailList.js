@@ -12,6 +12,7 @@ import Section from './Section';
 import InboxIcon from '@material-ui/icons/Inbox';
 import PeopleIcon from '@material-ui/icons/People';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
+import EmailRow from './EmailRow';
 function EmailList() {
     return (
         <div className="emailList">
@@ -48,6 +49,12 @@ function EmailList() {
                 <Section Icon={InboxIcon} title="Primary" color="red" selected={true} />
                 <Section Icon={PeopleIcon} title="Social" color="#1A73E8" />
                 <Section Icon={LocalOfferIcon} title="Promotions" color="green" />
+            </div>
+            <div className="emailList__list">
+                <EmailRow id="1" title="Hello" subject="PTE" desscription="Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material" time="19 hours ago" />
+                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
+                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
+                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
             </div>
         </div>
     )
