@@ -1,5 +1,5 @@
 import { Checkbox, IconButton } from '@material-ui/core'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./EmailList.css"
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import RedoIcon from '@material-ui/icons/Redo';
@@ -13,7 +13,15 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import PeopleIcon from '@material-ui/icons/People';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import EmailRow from './EmailRow';
+import { db } from './firebase';
 function EmailList() {
+    const [emails, setEmails] = useState([])
+    useEffect(() => {
+        db.collection("emails").orderBy("timestamp", "desc").onSnapshot(snapshot => setEmails(snapshot.docs.map(doc => ({
+            id: doc.id,
+            data: doc.data()
+        }))))
+    }, [])
     return (
         <div className="emailList">
             <div className="emailList__settings">
@@ -51,10 +59,19 @@ function EmailList() {
                 <Section Icon={LocalOfferIcon} title="Promotions" color="green" />
             </div>
             <div className="emailList__list">
-                <EmailRow id="1" title="Hello" subject="PTE" desscription="Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material. Reading Intensive Course is one of the most effective way to learning real exam material" time="19 hours ago" />
-                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
-                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
-                <EmailRow id="1" title="Hello" subject="PTE" desscription="Course" time="19 hours ago" />
+                {
+                    emails.map(({ id, data: { to, subject, message, timestamp } }) => (
+                        <EmailRow
+                            id={id}
+                            key={id}
+                            title={to}
+                            subject={subject}
+                            desscription={message}
+                            time={new Date(timestamp?.seconds * 1000).toUTCString()}
+                        />
+                    ))
+                }
+
             </div>
         </div>
     )
